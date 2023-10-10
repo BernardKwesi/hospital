@@ -53,18 +53,18 @@ if(strlen($_SESSION['id']==0)) {
 <div class="container-fluid container-fullw bg-white">
 <div class="row">
 <div class="col-md-12">
-	<form role="form" method="post" name="search">
+<form role="form" method="post" name="search">
 
-<div class="form-group">
-<label for="doctorname">
-Search by Name/Mobile No.
-</label>
-<input type="text" name="searchdata" id="searchdata" class="form-control" value="" required='true'>
-</div>
+	<div class="form-group">
+	<label for="doctorname">
+	Search by Name/Mobile No.
+	</label>
+	<input type="text" name="searchdata" id="searchdata" class="form-control" value="" required='true'>
+	</div>
 
-<button type="submit" name="search" id="submit" class="btn btn-o btn-primary">
-Search
-</button>
+	<button type="submit" name="search" id="submit" class="btn btn-o btn-primary">
+	Search
+	</button>
 </form>	
 <?php
 if(isset($_POST['search']))
@@ -88,7 +88,7 @@ $sdata=$_POST['searchdata'];
 </thead>
 <tbody>
 <?php
-$sql=mysqli_query($con,"select * from tblpatient where PatientName like '%$sdata%'|| PatientContno like '%$sdata%'");
+$sql=mysqli_query($con,"select * from tblpatient where PatientName like '%$sdata%'|| PatientContno like '%$sdata%' || PatientIndexNo like '%$sdata%'");
 $num=mysqli_num_rows($sql);
 if($num>0){
 $cnt=1;

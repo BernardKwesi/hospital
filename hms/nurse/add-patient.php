@@ -1,14 +1,19 @@
 <?php
+
 session_start();
 error_reporting(0);
 include('include/config.php');
+$error = mysqli_error($con);
+echo "<script>console.log($error);</script>";
 if(strlen($_SESSION['id']==0)) {
  header('location:logout.php');
   } else{
 
 if(isset($_POST['submit']))
 {	
+
 	$docid=$_SESSION['id'];
+	$patIndex = $_POST['patIndex'];
 	$patname=$_POST['patname'];
 $patcontact=$_POST['patcontact'];
 $patemail=$_POST['patemail'];
@@ -16,12 +21,14 @@ $gender=$_POST['gender'];
 $pataddress=$_POST['pataddress'];
 $patage=$_POST['patage'];
 $medhis=$_POST['medhis'];
-$sql=mysqli_query($con,"insert into tblpatient(Docid,PatientName,PatientContno,PatientEmail,PatientGender,PatientAdd,PatientAge,PatientMedhis) values('$docid','$patname','$patcontact','$patemail','$gender','$pataddress','$patage','$medhis')");
+$sql=mysqli_query($con,"insert into tblpatient(Docid,PatientName,PatientIndexNo,PatientContno,PatientEmail,PatientGender,PatientAdd,PatientAge,PatientMedhis) values('$docid','$patname','$patIndex','$patcontact','$patemail','$gender','$pataddress','$patage','$medhis')");
 if($sql)
 {
 echo "<script>alert('Patient info added Successfully');</script>";
 header('location:add-patient.php');
 
+}else {
+	echo "Error: " . mysqli_error($con);
 }
 }
 ?>
@@ -73,6 +80,7 @@ error:function (){}
 <section id="page-title">
 <div class="row">
 <div class="col-sm-8">
+
 <h1 class="mainTitle">Patient | Add Patient</h1>
 </div>
 <ol class="breadcrumb">
@@ -87,13 +95,210 @@ error:function (){}
 </section>
 <div class="container-fluid container-fullw bg-white">
 <div class="row">
+
 <div class="col-md-12">
 <div class="row margin-top-30">
 <div class="col-lg-8 col-md-12">
+<div class="margin-bottom-30">
+	<form role="form" method="post" name="search">
+
+		<div class="form-group">
+		<label for="doctorname">
+		
+		</label>
+		<input type="text" placeholder="Search by Index Number" name="searchdata" id="searchdata" class="form-control" value="" required='true'>
+		</div>
+	
+		<button type="submit" name="search" id="submit" class="btn btn-primary">
+		Search
+		</button>
+	</form>	
+	
+</div>
+
 <div class="panel panel-white">
+
 <div class="panel-heading">
+
 <h5 class="panel-title">Add Patient</h5>
 </div>
+	<?php
+	
+	
+	if(isset($_POST['search']))
+	{ 
+	
+		$sdata=$_POST['searchdata'];
+		$sql=mysqli_query($con,"select * from students where index_no like '%$sdata%'|| name like '%$sdata%'");
+		if(mysqli_num_rows($sql) == 1){
+			while ($row=mysqli_fetch_array($sql)) { 
+				
+			
+				
+	?>	  
+	
+	<div class="panel-body">
+<form role="form" name="" method="post">
+<div class="form-group">
+<label for="doctorname">
+Patient Index Number
+</label>
+<input type="text" name="patIndex" class="form-control"  value="<?php echo $row['index_no']?>" placeholder="Enter Patient Index No." required="true">
+</div>
+<div class="form-group">
+<label for="doctorname">
+Patient Name
+</label>
+<input type="text" name="patname" class="form-control"  value="<?php echo $row['name']?>" placeholder="Enter Patient Name" required="true">
+</div>
+<div class="form-group">
+<label for="fess">
+ Patient Contact no
+</label>
+<input type="text" name="patcontact" class="form-control"  value="<?php echo $row['contact']?>" placeholder="Enter Patient Contact no" required="true" >  <!-- maxlength="10" pattern="[0-9]+" -->
+</div>
+<div class="form-group">
+<label for="fess">
+Patient Email
+</label>
+<input type="email" id="patemail" name="patemail" class="form-control" value="<?php echo $row['email']?>" placeholder="Enter Patient Email id" required="true" onBlur="userAvailability()">
+<span id="user-availability-status1" style="font-size:12px;"></span>
+</div>
+<div class="form-group">
+<label class="block">
+Gender
+</label>
+<div class="clip-radio radio-primary">
+<input type="radio" id="rg-female" name="gender" <?php echo $row['gender'] == 'female'? 'checked': '';?> value="female" >
+<label for="rg-female">
+Female
+</label>
+<input type="radio" id="rg-male" name="gender" <?php echo $row['gender'] == 'male'? 'checked': '';?> value="male">
+<label for="rg-male">
+Male
+</label>
+</div>
+</div>
+<div class="form-group">
+<label for="address">
+Patient Address
+</label>
+<textarea name="pataddress" class="form-control"  placeholder="Enter Patient Address"  required="true"><?php echo $row['address'] ; ?></textarea>
+</div>
+<div class="form-group">
+<label for="fess">
+ Patient Age
+</label>
+
+<?php 
+	
+
+// Create a DateTime object for the date of birth
+	$birthDate = new DateTime($row['dob']);
+	
+	
+	$currentDate = new DateTime();
+
+	// Calculate the difference between the current date and the date of birth
+	$age = $currentDate->diff($birthDate)->y;
+
+?>
+<input type="text" name="patage" class="form-control" value="<?php echo $age ;?>" placeholder="Enter Patient Age" required="true">
+</div>
+<div class="form-group">
+<label for="fess">
+ Medical History
+</label>
+<textarea type="text" name="medhis" class="form-control"  placeholder="Enter Patient Medical History(if any)" required="true"></textarea>
+</div>	
+
+<button type="submit" name="submit" id="submit" class="btn btn-o btn-primary">
+Add
+</button>
+</form>
+</div>
+
+
+
+
+
+
+
+
+<?php   } } else { ?>
+<p class="text-danger">Student Record not found</p>
+<div class="panel-body">
+	
+	<form role="form" name="" method="post">
+	
+	<div class="form-group">
+	<label for="doctorname">
+	Patient Name
+	</label>
+	<input type="text" name="patname" class="form-control"  placeholder="Enter Patient Name" required="true">
+	</div>
+	<div class="form-group">
+	<label for="fess">
+	 Patient Contact no
+	</label>
+	<input type="text" name="patcontact" class="form-control"  placeholder="Enter Patient Contact no" required="true" maxlength="10" pattern="[0-9]+">
+	</div>
+	<div class="form-group">
+	<label for="fess">
+	Patient Email
+	</label>
+	<input type="email" id="patemail" name="patemail" class="form-control"  placeholder="Enter Patient Email id" required="true" onBlur="userAvailability()">
+	<span id="user-availability-status1" style="font-size:12px;"></span>
+	</div>
+	<div class="form-group">
+	<label class="block">
+	Gender
+	</label>
+	<div class="clip-radio radio-primary">
+	<input type="radio" id="rg-female" name="gender" value="female" >
+	<label for="rg-female">
+	Female
+	</label>
+	<input type="radio" id="rg-male" name="gender" value="male">
+	<label for="rg-male">
+	Male
+	</label>
+	</div>
+	</div>
+	<div class="form-group">
+	<label for="address">
+	Patient Address
+	</label>
+	<textarea name="pataddress" class="form-control"  placeholder="Enter Patient Address" required="true"></textarea>
+	</div>
+	<div class="form-group">
+	<label for="fess">
+	 Patient Age
+	</label>
+	<input type="text" name="patage" class="form-control"  placeholder="Enter Patient Age" required="true">
+	</div>
+	<div class="form-group">
+	<label for="fess">
+	 Medical History
+	</label>
+	<textarea type="text" name="medhis" class="form-control"  placeholder="Enter Patient Medical History(if any)" required="true"></textarea>
+	</div>	
+	
+	<button type="submit" name="submit" id="submit" class="btn btn-o btn-primary">
+	Add
+	</button>
+	</form>
+
+</div>
+<?php
+}
+	
+}else {
+
+?>
+
+
+
 <div class="panel-body">
 <form role="form" name="" method="post">
 
@@ -155,6 +360,9 @@ Add
 </button>
 </form>
 </div>
+
+
+	<?php } ?>
 </div>
 </div>
 </div>
