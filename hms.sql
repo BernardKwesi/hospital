@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 08, 2023 at 03:54 PM
+-- Generation Time: Oct 11, 2023 at 09:31 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -88,7 +88,8 @@ INSERT INTO `appointment` (`id`, `doctorSpecialization`, `doctorId`, `userId`, `
 (4, 'Ayurveda', 5, 5, 8050, '2019-11-08', '1:00 PM', '2019-11-05 10:28:54', 1, 1, '0000-00-00 00:00:00'),
 (5, 'Dermatologist', 9, 7, 500, '2019-11-30', '5:30 PM', '2019-11-10 18:41:34', 1, 0, '2019-11-10 18:48:30'),
 (6, 'Physician', 11, 2, 2000, '2020-07-14', '10:15 AM', '2020-07-05 02:12:37', 1, 1, NULL),
-(7, 'General Physician', 3, 2, 1200, '2020-07-05', '10:15 AM', '2020-07-05 02:14:49', 1, 1, NULL);
+(7, 'General Physician', 3, 2, 1200, '2020-07-05', '10:15 AM', '2020-07-05 02:14:49', 1, 1, NULL),
+(8, 'General Physician', 3, 2, 1200, '2023-10-12', '6:45 AM', '2023-10-10 06:24:26', 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -147,7 +148,7 @@ INSERT INTO `doctors` (`id`, `specilization`, `doctorName`, `address`, `docFees`
 (5, 'Ayurveda', 'Sanjeev', 'Gurugram', '8050', 442166644646, 'sanjeev@gmail.com', 'f925916e2754e5e03f75dd58a5733251', '2017-01-07 07:47:07', '0000-00-00 00:00:00'),
 (6, 'General Physician', 'Amrita', 'New Delhi India', '2500', 45497964, 'amrita@test.com', 'f925916e2754e5e03f75dd58a5733251', '2017-01-07 07:52:50', '0000-00-00 00:00:00'),
 (7, 'Demo test', 'abc ', 'New Delhi India', '200', 852888888, 'test@demo.com', '25d55ad283aa400af464c76d713c07ad', '2017-01-07 08:08:58', '2023-10-07 20:06:45'),
-(8, 'Ayurveda', 'Test Doctor', 'Xyz Abc New Delhi', '600', 1234567890, 'test@test.com', '202cb962ac59075b964b07152d234b70', '2019-06-23 17:57:43', '2019-06-23 18:06:06'),
+(8, 'Ayurveda', 'Test Doctor', 'Xyz Abc New Delhi', '600', 1234567890, 'test@test.com', '25d55ad283aa400af464c76d713c07ad', '2019-06-23 17:57:43', '2023-10-10 05:43:38'),
 (11, 'Physician', 'Jonah Juarez', 'Surigao Philippines', '2000', 123456789, 'jjuarez@gmail.com', '25f9e794323b453885f5181f1b624d0b', '2020-07-05 02:06:00', '2020-07-05 02:06:48');
 
 -- --------------------------------------------------------
@@ -181,7 +182,14 @@ INSERT INTO `doctorslog` (`id`, `uid`, `username`, `userip`, `loginTime`, `logou
 (27, 11, 'jjuarez@gmail.com', 0x3a3a3100000000000000000000000000, '2020-07-05 02:08:18', NULL, 1),
 (28, 11, 'jjuarez@gmail.com', 0x3a3a3100000000000000000000000000, '2020-07-05 02:15:25', NULL, 1),
 (29, NULL, 'test@demo.com', 0x3a3a3100000000000000000000000000, '2023-10-07 18:48:59', NULL, 0),
-(30, 7, 'test@demo.com', 0x3a3a3100000000000000000000000000, '2023-10-07 20:06:56', NULL, 1);
+(30, 7, 'test@demo.com', 0x3a3a3100000000000000000000000000, '2023-10-07 20:06:56', NULL, 1),
+(31, NULL, 'test@test.com', 0x3a3a3100000000000000000000000000, '2023-10-10 05:43:17', NULL, 0),
+(32, 8, 'test@test.com', 0x3a3a3100000000000000000000000000, '2023-10-10 05:43:47', '10-10-2023 11:41:58 AM', 1),
+(33, 7, 'test@demo.com', 0x3a3a3100000000000000000000000000, '2023-10-10 06:12:28', '10-10-2023 11:47:59 AM', 1),
+(34, 8, 'test@test.com', 0x3a3a3100000000000000000000000000, '2023-10-10 06:25:12', NULL, 1),
+(35, 7, 'test@demo.com', 0x3a3a3100000000000000000000000000, '2023-10-10 06:29:40', '10-10-2023 12:32:07 PM', 1),
+(36, 8, 'test@test.com', 0x3a3a3100000000000000000000000000, '2023-10-11 06:06:06', '11-10-2023 11:46:48 AM', 1),
+(37, 8, 'test@test.com', 0x3a3a3100000000000000000000000000, '2023-10-11 06:17:26', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -619,6 +627,8 @@ CREATE TABLE `tblpatient` (
   `PatientAdd` mediumtext DEFAULT NULL,
   `PatientAge` int(10) DEFAULT NULL,
   `PatientMedhis` mediumtext DEFAULT NULL,
+  `PatientSymptoms` text DEFAULT NULL,
+  `PatientPrescription` text DEFAULT NULL,
   `CreationDate` timestamp NULL DEFAULT current_timestamp(),
   `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -627,8 +637,9 @@ CREATE TABLE `tblpatient` (
 -- Dumping data for table `tblpatient`
 --
 
-INSERT INTO `tblpatient` (`ID`, `Docid`, `PatientName`, `PatientContno`, `PatientIndexNo`, `PatientEmail`, `PatientGender`, `PatientAdd`, `PatientAge`, `PatientMedhis`, `CreationDate`, `UpdationDate`) VALUES
-(19, 7, 'Fabiola Terry', '379-715-2381', '04/2023/2901D', 'fadel.elva@hotmail.com', 'female', '6796 Juliet Wall\r\nPort Edmundfurt, VA 01448-2375', 20, 'None', '2023-10-08 13:52:45', NULL);
+INSERT INTO `tblpatient` (`ID`, `Docid`, `PatientName`, `PatientContno`, `PatientIndexNo`, `PatientEmail`, `PatientGender`, `PatientAdd`, `PatientAge`, `PatientMedhis`, `PatientSymptoms`, `PatientPrescription`, `CreationDate`, `UpdationDate`) VALUES
+(19, 7, 'Fabiola Terry', '379-715-2381', '04/2023/2901D', 'fadel.elva@hotmail.com', 'Male', '6796 Juliet Wall\r\nPort Edmundfurt, VA 01448-2375', 20, 'None', 'None', 'Patient Prescription', '2023-10-08 13:52:45', '2023-10-11 07:26:56'),
+(20, 8, 'Gerhard Mohr', '637.537.3122', '04/2023/29021D', 'autumn.lockman@dare.biz', 'male', '5642 Bayer Summit\r\nWest Zellahaven, AK 65102-9535', 22, 'Was a dancer', 'Headache , Shitting and Pissing ', NULL, '2023-10-11 06:15:16', NULL);
 
 -- --------------------------------------------------------
 
@@ -656,7 +667,8 @@ INSERT INTO `userlog` (`id`, `uid`, `username`, `userip`, `loginTime`, `logout`,
 (26, NULL, 'serbermz2020@gmail.com', 0x3a3a3100000000000000000000000000, '2020-07-05 02:11:05', NULL, 0),
 (27, NULL, 'test@demo.com', 0x3a3a3100000000000000000000000000, '2020-07-05 02:11:24', NULL, 0),
 (28, NULL, 'serbermz2020@gmail.com', 0x3a3a3100000000000000000000000000, '2020-07-05 02:11:46', NULL, 0),
-(29, 2, 'test@gmail.com', 0x3a3a3100000000000000000000000000, '2020-07-05 02:12:00', NULL, 1);
+(29, 2, 'test@gmail.com', 0x3a3a3100000000000000000000000000, '2020-07-05 02:12:00', NULL, 1),
+(30, 2, 'test@gmail.com', 0x3a3a3100000000000000000000000000, '2023-10-10 06:23:56', '10-10-2023 11:54:38 AM', 1);
 
 -- --------------------------------------------------------
 
@@ -681,7 +693,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fullName`, `address`, `city`, `gender`, `email`, `password`, `regDate`, `updationDate`) VALUES
-(2, 'Demo User', 'Manila, Philippines', 'Delhi', 'female', 'test@gmail.com', 'f925916e2754e5e03f75dd58a5733251', '2016-12-30 05:34:39', '2020-07-05 01:55:24');
+(2, 'Demo User', 'Manila, Philippines', 'Delhi', 'female', 'test@gmail.com', '25d55ad283aa400af464c76d713c07ad', '2016-12-30 05:34:39', '2023-10-10 06:23:36');
 
 --
 -- Indexes for dumped tables
@@ -811,7 +823,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `customers`
@@ -829,7 +841,7 @@ ALTER TABLE `doctors`
 -- AUTO_INCREMENT for table `doctorslog`
 --
 ALTER TABLE `doctorslog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `doctorspecilization`
@@ -889,13 +901,13 @@ ALTER TABLE `tblmedicalhistory`
 -- AUTO_INCREMENT for table `tblpatient`
 --
 ALTER TABLE `tblpatient`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `userlog`
 --
 ALTER TABLE `userlog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `users`
