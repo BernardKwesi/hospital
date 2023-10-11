@@ -21,7 +21,8 @@ $gender=$_POST['gender'];
 $pataddress=$_POST['pataddress'];
 $patage=$_POST['patage'];
 $medhis=$_POST['medhis'];
-$sql=mysqli_query($con,"insert into tblpatient(Docid,PatientName,PatientIndexNo,PatientContno,PatientEmail,PatientGender,PatientAdd,PatientAge,PatientMedhis) values('$docid','$patname','$patIndex','$patcontact','$patemail','$gender','$pataddress','$patage','$medhis')");
+$symptoms = $_POST['symptoms'];
+$sql=mysqli_query($con,"insert into tblpatient(Docid,PatientName,PatientIndexNo,PatientContno,PatientEmail,PatientGender,PatientAdd,PatientAge,PatientMedhis, PatientSymptoms) values('$docid','$patname','$patIndex','$patcontact','$patemail','$gender','$pataddress','$patage','$medhis','$symptoms')");
 if($sql)
 {
 echo "<script>alert('Patient info added Successfully');</script>";
@@ -211,7 +212,12 @@ Patient Address
 </label>
 <textarea type="text" name="medhis" class="form-control"  placeholder="Enter Patient Medical History(if any)" required="true"></textarea>
 </div>	
-
+<div class="form-group">
+	<label for="fess">
+	 Ailment / Symptoms
+	</label>
+	<textarea type="text" name="symptoms" class="form-control"  placeholder="Enter Ailment or Symptoms" required="true"></textarea>
+</div>	
 <button type="submit" name="submit" id="submit" class="btn btn-o btn-primary">
 Add
 </button>
@@ -230,7 +236,12 @@ Add
 <div class="panel-body">
 	
 	<form role="form" name="" method="post">
-	
+	<div class="form-group">
+	<label for="doctorname">
+	Patient Index Number
+	</label>
+	<input type="text" name="patIndex" class="form-control"  value="<?php echo $row['index_no']?>" placeholder="Enter Patient Index No." required="true">
+	</div>
 	<div class="form-group">
 	<label for="doctorname">
 	Patient Name
@@ -283,7 +294,12 @@ Add
 	</label>
 	<textarea type="text" name="medhis" class="form-control"  placeholder="Enter Patient Medical History(if any)" required="true"></textarea>
 	</div>	
-	
+	<div class="form-group">
+		<label for="fess">
+		 Ailment / Symptoms
+		</label>
+		<textarea type="text" name="symptoms" class="form-control"  placeholder="Enter Ailment or Symptoms" required="true"></textarea>
+	</div>
 	<button type="submit" name="submit" id="submit" class="btn btn-o btn-primary">
 	Add
 	</button>
@@ -301,7 +317,12 @@ Add
 
 <div class="panel-body">
 <form role="form" name="" method="post">
-
+<div class="form-group">
+<label for="doctorname">
+Patient Index Number
+</label>
+<input type="text" name="patIndex" class="form-control"  value="<?php echo $row['index_no']?>" placeholder="Enter Patient Index No." required="true">
+</div>
 <div class="form-group">
 <label for="doctorname">
 Patient Name
@@ -354,6 +375,12 @@ Patient Address
 </label>
 <textarea type="text" name="medhis" class="form-control"  placeholder="Enter Patient Medical History(if any)" required="true"></textarea>
 </div>	
+<div class="form-group">
+	<label for="fess">
+	 Ailment / Symptoms
+	</label>
+	<textarea type="text" name="symptoms" class="form-control"  placeholder="Enter Ailment or Symptoms" required="true"></textarea>
+</div>
 
 <button type="submit" name="submit" id="submit" class="btn btn-o btn-primary">
 Add

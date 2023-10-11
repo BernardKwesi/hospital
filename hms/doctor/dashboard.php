@@ -87,7 +87,20 @@ if(strlen($_SESSION['id']==0)) {
 										</div>
 									</div>
 								</div>
-								
+								<div class="col-sm-4">
+									<div class="panel panel-white no-radius text-center">
+										<div class="panel-body">
+											<span class="fa-stack fa-2x"> <i class="fa fa-users fa-stack-2x text-primary"></i>  </span>
+											<h2 class="StepTitle">Patients</h2>
+										
+											<p class="cl-effect-1">
+												<a href="patients.php">
+													View Patients
+												</a>
+											</p>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 			
