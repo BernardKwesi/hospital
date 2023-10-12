@@ -35,7 +35,7 @@
         <div class="card-body">
           <form name="login-form" class="login-form" action="home.php" method="post" onsubmit="return validateCredentials();">
             <div class="logo">
-        			<img src= "images/logo.jpg" style="width:100px;height:100px; border-radius:50%; alt="">
+        			<img src= "images/logo.jpg" style="width:100px;height:100px; border-radius:50%;" alt="">
         			<h1 class="logo-caption"><span class="tweak">L</span>ogin</h1>
         		</div> <!-- logo class -->
             <div class="input-group form-group">
