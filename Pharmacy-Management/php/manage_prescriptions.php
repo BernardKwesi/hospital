@@ -31,39 +31,42 @@
       searchSupplier(strtoupper($_GET["text"]));
   }
 
-  function showSuppliers($id) {
+  function showPrescriptions($id) {
     require "db_connection.php";
     if($con) {
       $seq_no = 0;
-      $query = "SELECT * FROM suppliers";
+      $query = "SELECT tblpatient.* , doctors.doctorName FROM tblpatient join doctors on tblpatient.Docid = doctors.id where PatientPrescription != ''";
       $result = mysqli_query($con, $query);
       while($row = mysqli_fetch_array($result)) {
         $seq_no++;
-        if($row['ID'] == $id)
+        if($row['PatientIndexNo'] == $id)
           showEditOptionsRow($seq_no, $row);
         else
-          showSupplierRow($seq_no, $row);
+          showPrescriptionRow($seq_no, $row);
       }
     }
   }
 
-  function showSupplierRow($seq_no, $row) {
+  function showPrescriptionRow($seq_no, $row) {
     ?>
     <tr>
-      <td><?php echo $seq_no; ?></td>
-      <td><?php echo $row['ID'] ?></td>
-      <td><?php echo $row['NAME']; ?></td>
-      <td><?php echo $row['EMAIL']; ?></td>
-      <td><?php echo $row['CONTACT_NUMBER']; ?></td>
-      <td><?php echo $row['ADDRESS']; ?></td>
-      <td>
+      
+      <td><?php echo $row['PatientIndexNo'] ?></td>
+      
+      <td><?php echo $row['PatientName']; ?></td>
+      
+      <td><?php echo $row['PatientContno']; ?></td>
+      <td><?php echo $row['PatientSymptoms']; ?></td>
+      <td><?php echo $row['PatientPrescription']; ?></td>
+      <td><?php echo $row['doctorName']; ?></td>
+      <!-- <td>
         <button href="" class="btn btn-info btn-sm" onclick="editSupplier(<?php echo $row['ID']; ?>);">
-          <i class="fa fa-pencil"></i>
+          <i class="fa fa-eye"></i>
         </button>
         <button class="btn btn-danger btn-sm" onclick="deleteSupplier(<?php echo $row['ID']; ?>);">
           <i class="fa fa-trash"></i>
         </button>
-      </td>
+      </td> -->
     </tr>
     <?php
   }
@@ -108,19 +111,17 @@ function updateSupplier($id, $name, $email, $contact_number, $address) {
     showSuppliers(0);
 }
 
-function searchSupplier($text) {
+function searchPrescription($text) {
   require "db_connection.php";
   if($con) {
     $seq_no = 0;
-    $query = "SELECT * FROM suppliers WHERE UPPER(NAME) LIKE '%$text%'";
+    $query = "SELECT * FROM tblpatient WHERE PatientIndexNo LIKE '%$text%'";
     $result = mysqli_query($con, $query);
     while($row = mysqli_fetch_array($result)) {
       $seq_no++;
-      showSupplierRow($seq_no, $row);
+      showPrescriptionRow($seq_no, $row);
     }
   }
 }
-
-
 
 ?>

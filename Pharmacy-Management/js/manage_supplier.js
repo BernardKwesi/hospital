@@ -53,12 +53,27 @@ function cancel() {
   xhttp.send();
 }
 
-function searchSupplier(text) {
+// function searchSupplier(text) {
+//   console.log("Fuck we are here");
+//   var xhttp = new XMLHttpRequest();
+//   xhttp.onreadystatechange = function () {
+//     if ((xhttp.readyState = 4 && xhttp.status == 200))
+//       document.getElementById("suppliers_div").innerHTML = xhttp.responseText;
+//   };
+//   xhttp.open("GET", "php/manage_supplier.php?action=search&text=" + text, true);
+//   xhttp.send();
+// }
+
+function searchPrescription(text) {
   var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if(xhttp.readyState = 4 && xhttp.status == 200)
-      document.getElementById('suppliers_div').innerHTML = xhttp.responseText;
+  xhttp.onreadystatechange = function () {
+    if ((xhttp.readyState = 4 && xhttp.status == 200))
+      document.getElementById("suppliers_div").innerHTML = xhttp.responseText;
   };
-  xhttp.open("GET", "php/manage_supplier.php?action=search&text=" + text, true);
+  xhttp.open(
+    "GET",
+    "php/manage_prescriptions.php?action=search&text=" + text,
+    true
+  );
   xhttp.send();
 }
